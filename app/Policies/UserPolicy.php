@@ -14,7 +14,7 @@ class UserPolicy
      *
      * @return void
      */
-    public function __construct(User $currentUser, User $user)
+    public function update(User $currentUser, User $user)
     {
         return $currentUser->id === $user->id;
     }
