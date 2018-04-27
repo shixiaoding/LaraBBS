@@ -29,9 +29,16 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-
+//用户
 Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'edit']]);
 
-
+//贴子
 Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+//上传图片
+Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
+
+//栏目
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
+
+
+

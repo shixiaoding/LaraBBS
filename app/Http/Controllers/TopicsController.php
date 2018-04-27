@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Handlers\ImageUploadHandler;
 use App\Models\Category;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -42,25 +43,27 @@ class TopicsController extends Controller
 		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
 	}
 
-	public function edit(Topic $topic)
-	{
-        $this->authorize('update', $topic);
-		return view('topics.create_and_edit', compact('topic'));
-	}
+	//上传
+    public function uploadImage(Request $request, ImageUploadHandler $uploader)
+    {
+        //初始化数据
+        $data = [
+            'success' => false,
+            'msg' => '上传失败！',
+            'file_path' => ''
+        ];
 
-	public function update(TopicRequest $request, Topic $topic)
-	{
-		$this->authorize('update', $topic);
-		$topic->update($request->all());
+        if ($file = $request->upload_file) {
+            //保存图片
+            $result = $uploader->save($request->upload_file, 'topics', Auth::id(), 1024);
 
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Updated successfully.');
-	}
-
-	public function destroy(Topic $topic)
-	{
-		$this->authorize('destroy', $topic);
-		$topic->delete();
-
-		return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
-	}
+            //图片保存成功
+            if ($result) {
+                $data['file_path'] = $result['path'];
+                $data['msg'] = "上传成功!";
+                $data['success'] = true;
+            }
+        }
+        return $data;
+    }
 }
