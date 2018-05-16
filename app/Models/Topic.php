@@ -53,6 +53,8 @@ class Topic extends Model
 
     public function link($params = [])
     {
+        //niu-bi
+       // return array_merge([$this->id, $this->slug]);
         return route('topics.show',array_merge([$this->id, $this->slug], $params));
     }
 }
