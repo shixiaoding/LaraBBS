@@ -15,7 +15,7 @@ return [
     |
      */
     
-    'allowed_tlds' => ['dev', 'local', 'test', 'top'],
+    'allowed_tlds' => ['dev', 'local', 'test', 'top', 'me'],
 
     /*
     |--------------------------------------------------------------------------
